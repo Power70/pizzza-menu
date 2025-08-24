@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+const messages = [
+  "Learn React ⚛️",
+  "Apply for jobs 💼",
+  "Invest your new income 🤑",
+];
 
-function App() {
+export default function App () {
+  const step = 1
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div className="steps">
+      <div className="numbers">
+        <div className={`step ${step === 1 ? "active" : ""}`}>1</div>
+        <div className={`step ${step === 2 ? "active" : ""}`}>2</div>
+        <div className={`step ${step === 3 ? "active" : ""}`}>3</div>
+      </div>
+      <p>
+        step {step}: {messages[step - 1]}
+      </p>
 
-export default App;
+      <div className="buttons">
+        <button style={{background: "#7950f2", color: "#fff"}}>
+          Previous
+        </button>
+        <button style={{background: "#7950f2", color: "#fff"}}>
+          Next
+        </button>
+      </div>
+    </div>
+  )
+}
