@@ -8,21 +8,25 @@ const messages = [
 
 export default function App () {
   const [step, setStep] = useState(1);
+  const [isOpen, setIsOpen] = useState(true);
 
   function handleNext () {
     if (step < messages.length) {
-      setStep(step + 1);
+      setStep((s) => s + 1);
     }
   }
 
   function handlePrevious () {
     if (step > 1) {
-      setStep(step - 1);
+      setStep((s) => s - 1);
     }
   }
 
   return (
-    <div className="steps">
+    <div>
+      <button className="close" onClick={() => setIsOpen((is) => !is)}>&times;</button>
+
+      {isOpen && <div className="steps">
       <div className="numbers">
         <div className={`step ${step === 1 ? "active" : ""}`}>1</div>
         <div className={`step ${step === 2 ? "active" : ""}`}>2</div>
@@ -43,6 +47,7 @@ export default function App () {
           Next
         </button>
       </div>
+    </div>}
     </div>
   )
 }
