@@ -66,12 +66,25 @@ export default function App() {
     setItems((items) => [...items, item]);
   }
 
+  function handleDeleteItem (id) {
+    setItems((items) => items.filter(item => item.id !== id));
+  }
+  function handleToggleItem (id) {
+    setItems((items) => items.map((item) => 
+      item.id === id ? { ...item, packed: !item.packed } 
+      : item
+    ));
+  }
 
   return (
     <div className="app">
       <Logo />
       <Form onAddItem={handleAddItem} />
-      <PackingList items={items} />
+      <PackingList 
+        items={items} 
+        onDeleteItem={handleDeleteItem} 
+        onToggleItem={handleToggleItem} 
+      />
       <Stats />
     </div>
   );
@@ -80,6 +93,7 @@ export default function App() {
 function Logo () {
   return <h1>Far Away 🏕️</h1>
 }
+
 function Form ({onAddItem}) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -91,8 +105,9 @@ function Form ({onAddItem}) {
 
     const newItem = { 
       description, quantity, 
-      packed: false, id: Date.now() };
-      console.log(newItem);
+      packed: false, id: Date.now() 
+    };
+    console.log(newItem);
 
     onAddItem(newItem);
 
@@ -123,22 +138,30 @@ function Form ({onAddItem}) {
   );
 }
 
-function PackingList ({ items }) {
+function PackingList ({ items, onDeleteItem, onToggleItem }) {
   return <div className="list">
     <ul>
       {items.map(item => ( 
-        <Item item={item} />
+        <Item key={item.id} 
+          item={item} 
+          onDeleteItem={onDeleteItem} 
+          onToggleItem={onToggleItem} 
+        />
       ))}
     </ul>
   </div>;
 }
-  
-function Item ({item}) {
+
+function Item ({item, onDeleteItem, onToggleItem}) {
   return <li>
+    <input type="checkbox" 
+      value={item.packed}
+      onChange={() => onToggleItem(item.id)}
+    />
     <span style={item.packed ? {textDecoration: "line-through"} : {}}>
       {item.quantity} {item.description}
     </span>
-    <button>❌</button>
+    <button onClick={() => onDeleteItem(item.id)}>❌</button>
   </li>;
 }
 
